@@ -55,6 +55,11 @@ def play_game2(screen):
         screen.fill(WHITE)
         m_pos = pygame.mouse.get_pos()
 
+        btn_w = min(170, (WIDTH - 40) // max_remove - 10) 
+        btn_gap = 15
+        total_btns_w = max_remove * btn_w + (max_remove - 1) * btn_gap
+        btns_start_x = WIDTH // 2 - total_btns_w // 2
+
         if running_state == STATE_SETUP:
             screen.blit(font_title.render("Triple Column NIM Game", True, BLACK), (WIDTH//2 - 320, 80))
             screen.blit(font_sub.render("Select game mode and rules", True, BLACK), (WIDTH//2 - 270, 140))
@@ -114,7 +119,7 @@ def play_game2(screen):
 
             if not winner and turn != "Computer":
                 for i in range(1, max_remove + 1):
-                    btn = pygame.Rect(WIDTH//2 - 370 + (i-1)*190, 550, 170, 50)
+                    btn = pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 550, btn_w, 50)
                     valid_move = sticks[selected_col] >= i
                     pygame.draw.rect(screen, BLUE if valid_move else GRAY, btn, border_radius=5)
                     screen.blit(font_label.render(f"Remove {i}", True, WHITE), (btn.x + 15, btn.y + 10))
@@ -180,7 +185,7 @@ def play_game2(screen):
                             selected_col = i
 
                     for i in range(1, max_remove + 1):
-                        btn = pygame.Rect(WIDTH//2 - 370 + (i-1)*190, 550, 170, 50)
+                        btn = pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 550, btn_w, 50)
                         if btn.collidepoint(m_pos) and sticks[selected_col] >= i:
                             sticks[selected_col] -= i
                             if sum(sticks) == 0:
@@ -255,7 +260,7 @@ def play_game2(screen):
         if running_state == STATE_PLAYING:
             if replay_btn.collidepoint(m_pos) or back_btn.collidepoint(m_pos)\
                 or (not winner and turn != "Computer" and any(pygame.Rect(col_centers[i] - 100, 400, 190, 50).collidepoint(m_pos) for i in range(3)))\
-                or (not winner and turn != "Computer" and any(pygame.Rect(WIDTH//2 - 370 + (i-1)*190, 550, 170, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):
+                or (not winner and turn != "Computer" and any(pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 550, btn_w, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):
                 hover = True
             else:
                 hover = False

@@ -52,6 +52,11 @@ def play_game1(screen):
         screen.fill(WHITE)
         m_pos = pygame.mouse.get_pos()
 
+        btn_w = min(170, (WIDTH - 40) // max_remove - 10) 
+        btn_gap = 15
+        total_btns_w = max_remove * btn_w + (max_remove - 1) * btn_gap
+        btns_start_x = WIDTH // 2 - total_btns_w // 2
+
         if running_state == STATE_SETUP:
 
             screen.blit(font_title.render("Single Column NIM Game", True, BLACK), (WIDTH//2 - 320, 80))
@@ -115,7 +120,7 @@ def play_game1(screen):
             # take button
             if not winner and turn != "Computer":
                 for i in range(1, max_remove + 1):
-                    btn = pygame.Rect(WIDTH//2 - 350 + (i-1)*190, 600, 170, 50)
+                    btn = pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 600, btn_w, 50)
                     pygame.draw.rect(screen, BLUE if sticks >= i else GRAY, btn, border_radius=5)
                     t_txt = font_label.render(f"Remove {i}", True, WHITE)
                     screen.blit(t_txt, t_txt.get_rect(center=btn.center))
@@ -224,8 +229,7 @@ def play_game1(screen):
 
         if running_state == STATE_PLAYING:
             if replay_btn.collidepoint(m_pos) or back_btn.collidepoint(m_pos)\
-                or (not winner and turn != "Computer" and any(pygame.Rect(WIDTH//2 - 350 + (i-1)*190, 600, 170, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):
-                hover = True
+            or (not winner and turn != "Computer" and any(pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 550, btn_w, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):                hover = True
             else:
                 hover = False
 
