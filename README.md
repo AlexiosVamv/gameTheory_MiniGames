@@ -10,7 +10,7 @@ The game AI implements the principles of Impartial Games, evaluating Winning and
 * **Modulo Arithmetic** for single-pile games.
 * **Bouton's Theorem (Nim-sum / Bitwise XOR)** for calculating equilibrium in multi-pile games.
 * **MEX (Minimum Excluded value) Rule** for evaluating complex states.
-* 
+  
 ## Contents (Implemented Games)
 
 1. **Game 1: Single-Pile NIM**
