@@ -1,0 +1,88 @@
+import pygame
+import sys
+
+import game1
+import game2
+import game3
+import game4
+
+
+pygame.init()
+
+# Ρυθμίσεις οθόνης
+WIDTH, HEIGHT = 1000, 800
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Game Theory - Mini Games")
+
+# Χρώματα
+WHITE = (245, 245, 245)
+BLACK = (30, 30, 30)
+GRAY = (200, 200, 200)
+BLUE = (50, 100, 200)
+TEXT_COLOR = (255, 255, 255)
+
+font_title = pygame.font.SysFont("arial", 50, bold=True)
+font_button = pygame.font.SysFont("arial", 35, bold=True)
+
+button_w, button_h = 400, 250
+gap = 60 
+
+start_x = (WIDTH - (2 * button_w + gap)) // 2
+start_y = 180
+
+buttons = [
+    {"rect": pygame.Rect(start_x, start_y, button_w, button_h), "text": "NIM (Single collumn)", "id": 1},
+    {"rect": pygame.Rect(start_x + button_w + gap, start_y, button_w, button_h), "text": "NIM (Triple collumn)", "id": 2},
+    {"rect": pygame.Rect(start_x, start_y + button_h + gap, button_w, button_h), "text": "Tic-tac-toe 3x3", "id": 3},
+    {"rect": pygame.Rect(start_x + button_w + gap, start_y + button_h + gap, button_w, button_h), "text": "Tic-tac-toe 4x4", "id": 4}
+]
+
+def draw_menu():
+    screen.fill(WHITE)
+    
+    
+    title_surface = font_title.render("Select game", True, BLACK)
+    title_rect = title_surface.get_rect(center=(WIDTH // 2, 80))
+    screen.blit(title_surface, title_rect)
+    
+    for btn in buttons:
+        shadow_rect = btn["rect"].copy()
+        shadow_rect.x += 4
+        shadow_rect.y += 4
+        pygame.draw.rect(screen, (150, 150, 150), shadow_rect, border_radius=12)
+        
+        pygame.draw.rect(screen, BLUE, btn["rect"], border_radius=12)
+        
+        text_surface = font_button.render(btn["text"], True, TEXT_COLOR)
+        text_rect = text_surface.get_rect(center=btn["rect"].center)
+        screen.blit(text_surface, text_rect)
+
+def main():
+    running = True
+    while running:
+        draw_menu()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                for btn in buttons:
+                    if btn["rect"].collidepoint(mouse_pos):
+                        if btn["id"] == 1:
+                            game1.play_game1(screen)
+                        elif btn["id"] == 2:
+                            game2.play_game2(screen)
+                        elif btn["id"] == 3:
+                            game3.play_game3(screen)
+                        elif btn["id"] == 4:
+                            game4.play_game4(screen)
+                        
+        pygame.display.flip()
+
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
