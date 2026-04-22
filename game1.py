@@ -112,7 +112,7 @@ def play_game1(screen):
                 txt = font_sub.render(info_txt, True, BLUE)
                 screen.blit(txt, txt.get_rect(center=(WIDTH//2, 150 )))
 
-            if pc_move_msg:
+            if pc_move_msg and not winner:
                 color = GRAY if "thinking" in pc_move_msg else RED
                 msg_surf = font_label.render(pc_move_msg, True, color)
                 screen.blit(msg_surf, msg_surf.get_rect(center=(WIDTH//2, 190)))
@@ -229,7 +229,7 @@ def play_game1(screen):
 
         if running_state == STATE_PLAYING:
             if replay_btn.collidepoint(m_pos) or back_btn.collidepoint(m_pos)\
-            or (not winner and turn != "Computer" and any(pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 550, btn_w, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):                hover = True
+            or (not winner and turn != "Computer" and any(pygame.Rect(btns_start_x + (i-1)*(btn_w + btn_gap), 600, btn_w, 50).collidepoint(m_pos) for i in range(1, max_remove + 1))):                hover = True
             else:
                 hover = False
 

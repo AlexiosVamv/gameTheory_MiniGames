@@ -108,7 +108,7 @@ def play_game3(screen):
                 txt = font_sub.render(info_txt, True, BLUE)
                 screen.blit(txt, txt.get_rect(center=(WIDTH//2, 90 )))
 
-            if pc_move_msg:
+            if pc_move_msg and not winner:
                 color = GRAY if "thinking" in pc_move_msg else RED
                 screen.blit(font_label.render(pc_move_msg, True, color), (WIDTH//2 - 150, 130))
 
